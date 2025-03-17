@@ -9,6 +9,7 @@ from tqdm import tqdm
 from .log import logger
 from accelerate import Accelerator
 from torch.cuda.amp import GradScaler, autocast
+import wandb
 
 def _summary(metrics):
     return " | ".join(f"{key.capitalize()}={val}" for key, val in metrics.items())

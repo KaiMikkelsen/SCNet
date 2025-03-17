@@ -9,8 +9,32 @@ import yaml
 from ml_collections import ConfigDict
 from accelerate import Accelerator
 from .log import logger
+import wandb
 
 accelerator = Accelerator()
+
+
+
+def wandb_init(args: argparse.Namespace, config) -> None:
+    """
+    Initialize the Weights & Biases (wandb) logging system.
+
+    Args:
+        args: Parsed command-line arguments containing the wandb key.
+        config: Configuration dictionary for the experiment.
+        device_ids: List of GPU device IDs used for training.
+        batch_size: Batch size for training.
+    """
+
+    if args.wandb_key is None or args.wandb_key.strip() == '':
+        wandb.init(mode='disabled')
+    else:
+        wandb.login(key="689bb384f0f7e0a9dbe275c4ba6458d13265990d")
+        wandb.init(
+            project='msst',
+            name="SCNet",
+            config={'config': config, 'args': args}
+        )
 
 def get_model(config):
 
@@ -75,7 +99,11 @@ def main():
     if not os.path.isfile(args.config_path):
         print(f"Error: config file {args.config_path} does not exist.")
         sys.exit(1)
-        
+
+    with open(args.config_path, 'r') as file:
+        config_dict = yaml.safe_load(file)
+        wandb_init(args, config_dict)
+
     solver = get_solver(args)
     accelerator.wait_for_everyone()
     solver.train()
