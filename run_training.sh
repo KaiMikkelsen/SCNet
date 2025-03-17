@@ -15,7 +15,7 @@ SCRATCH_DIR=$SLURM_TMPDIR
 # Variables
 MODEL_TYPE="scnet"
 CONFIG_PATH="configs/config_musdb18_scnet.yaml"
-DATASET_NAME="MUSDB18HQ"
+DATASET_NAME="MUSDB18HQ_TEST"
 DATASET_ZIP="/home/kaim/scratch/$DATASET_NAME.zip" # Specify the dataset ZIP name
 SLURM_LOGS_PATH="slurm_logs/${MODEL_TYPE}_${CURRENT_DATE}"
 CHECKPOINTS_PATH="/home/kaim/scratch/checkpoints/${MODEL_TYPE}_${CURRENT_DATE}"
