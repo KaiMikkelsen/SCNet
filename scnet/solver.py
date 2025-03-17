@@ -137,9 +137,11 @@ class Solver(object):
             logger.info(
                 f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
             
-                    # Log metrics to WandB after each epoch
+            # Log metrics to WandB after each epoch
             wandb.log({
             'train_loss': metrics['train']['loss'],
+            'train_sdr': metrics['train'].get('sdr', None),  # Use get() to avoid errors if missing
+            'train_nsdr': metrics['train'].get('nsdr', None),
             'epoch': epoch + 1,
             })
 

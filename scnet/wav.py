@@ -186,7 +186,7 @@ def get_wav_datasets(args):
     # print("Valid path is a directory:", valid_path.is_dir())  # Should print True
     # print("Valid path contents:", list(valid_path.iterdir()))  # List files in the valid directory
 
-
+    #might need to change this if metaladata is different for every dataset
     if not metadata_file.is_file() and accelerator.is_main_process:
         metadata_file.parent.mkdir(exist_ok=True, parents=True)
         train = build_metadata(train_path, args.sources)
