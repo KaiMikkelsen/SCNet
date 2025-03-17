@@ -1,0 +1,64 @@
+Moving ../data/MUSDB18HQ.zip to /localscratch/kaim.57054915.0 for faster access
+cp: cannot stat '../data/MUSDB18HQ.zip': No such file or directory
+unzipping /localscratch/kaim.57054915.0/MUSDB18HQ.zip
+unzip:  cannot find or open /localscratch/kaim.57054915.0/MUSDB18HQ.zip, /localscratch/kaim.57054915.0/MUSDB18HQ.zip.zip or /localscratch/kaim.57054915.0/MUSDB18HQ.zip.ZIP.
+Dataset successfully unzipped.
+Dataset path set to: /localscratch/kaim.57054915.0/MUSDB18HQ
+Running training script for model: scnet with dataset at /localscratch/kaim.57054915.0/MUSDB18HQ
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `0`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+wandb: Using wandb-core as the SDK backend. Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: kaimikkelsen (kaimikkelsen-mcgill-university). Use `wandb login --relogin` to force relogin
+wandb: Appending key for api.wandb.ai to your netrc file: /home/kaim/.netrc
+wandb: Tracking run with wandb version 0.18.0
+wandb: Run data is saved locally in /project/6002780/kaim/SCNet/wandb/run-20250317_103410-emajnhqv
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SCNet_2025-03-17
+wandb: ⭐️ View project at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet
+wandb: 🚀 View run at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/emajnhqv
+2025-03-17 10:34:12,141 - INFO - Total number of parameters: 10578768
+2025-03-17 10:34:12,144 - INFO - train/valid set size: 19228 0
+/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py:120: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  warnings.warn("torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.")
+2025-03-17 10:34:12,321 - INFO - Learning rate adjusted to 0.0005
+2025-03-17 10:34:12,322 - INFO - ----------------------------------------------------------------------
+2025-03-17 10:34:12,323 - INFO - Training Epoch 1 ...
+  0%|          | 0/4807 [00:00<?, ?it/s]/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/amp/autocast_mode.py:204: UserWarning: User provided device_type of 'cuda', but CUDA is not available. Disabling
+  warnings.warn('User provided device_type of \'cuda\', but CUDA is not available. Disabling')
+  0%|          | 0/4807 [00:08<?, ?it/s]
+Traceback (most recent call last):
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 115, in <module>
+    main()
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 110, in main
+    solver.train()
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 135, in train
+    metrics['train'] = self._run_one_epoch(epoch)
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 225, in _run_one_epoch
+    estimate = self.model(mix)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/project/6002780/kaim/SCNet/scnet/SCNet.py", line 331, in forward
+    x = torch.stft(x, **self.stft_config, return_complex=True)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/functional.py", line 639, in stft
+    input = F.pad(input.view(extended_shape), [pad, pad], pad_mode)
+RuntimeError: Argument #4: Padding size should be less than the corresponding input dimension, but got: padding (2048, 2048) at dimension 2 of input [1, 8, 1024]
+[1;34mwandb[0m: 🚀 View run [33mSCNet_2025-03-17[0m at: [34mhttps://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/emajnhqv[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../../../project/6002780/kaim/SCNet/wandb/run-20250317_103410-emajnhqv/logs[0m
+Traceback (most recent call last):
+  File "/project/6002780/kaim/SCNet/scnet_env/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 48, in main
+    args.func(args)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1097, in launch_command
+    simple_launcher(args)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 703, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/project/6002780/kaim/SCNet/scnet_env/bin/python', '-m', 'scnet.train']' returned non-zero exit status 1.
