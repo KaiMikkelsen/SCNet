@@ -68,6 +68,7 @@ def get_solver(args):
             betas=(config.optim.optim.momentum, config.optim.beta2),
             weight_decay=config.optim.weight_decay)
 
+    print("goung into get_wav_datasets")
     train_set, valid_set = get_wav_datasets(config.data)
 
     logger.info("train/valid set size: %d %d", len(train_set), len(valid_set))
