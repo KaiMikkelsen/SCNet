@@ -1,4 +1,4 @@
-#!/project/6002780/kaim/SCNet/scnet_env/bin/python
+#!/project/6002780/kaim/SCNet/scnet_env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
