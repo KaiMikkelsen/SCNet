@@ -1,0 +1,6 @@
+Moving /home/kaim/scratch/MUSDB18HQ_TEST.zip to /localscratch/kaim.57054915.0 for faster access
+cp: cannot stat '/home/kaim/scratch/MUSDB18HQ_TEST.zip': No such file or directory
+unzipping /localscratch/kaim.57054915.0/MUSDB18HQ_TEST.zip
+unzip:  cannot find or open /localscratch/kaim.57054915.0/MUSDB18HQ_TEST.zip, /localscratch/kaim.57054915.0/MUSDB18HQ_TEST.zip.zip or /localscratch/kaim.57054915.0/MUSDB18HQ_TEST.zip.ZIP.
+Dataset successfully unzipped.
+Unknown dataset: MUSDB18HQ_TEST
