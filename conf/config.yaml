@@ -2,7 +2,7 @@
 data:
   wav: /home/kaim/scratch/MUSDB18HQ
   samplerate: 44100
-  segment: 11
+  segment: 1
   shift: 1
   channels: 2
   normalize: true
@@ -36,8 +36,8 @@ model:
   expand: 1
 
 epochs: 200
-#batch_size: 4
-batch_size: 1
+batch_size: 4
+
 
 optim:
   lr: 0.0005

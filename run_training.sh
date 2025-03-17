@@ -30,7 +30,9 @@ mkdir -p "$CHECKPOINTS_PATH"
 exec > >(tee -a "$SLURM_LOGS_PATH/slurm-${SLURM_JOB_ID}.out") 2>&1
 
 # Activate the environment
-source /home/kaim/projects/def-ichiro/kaim/Music-Source-Separation-Training/separation_env/bin/activate
+#source /home/kaim/projects/def-ichiro/kaim/Music-Source-Separation-Training/separation_env/bin/activate
+
+source /home/kaim/projects/def-ichiro/kaim/SCNet/scnet_env/bin/activate
 
 RUNNING_ON_MAC=False
 if [ "$RUNNING_ON_MAC" = False ]; then
