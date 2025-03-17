@@ -173,13 +173,15 @@ def get_wav_datasets(args):
     sig = hashlib.sha1(str(args.wav).encode()).hexdigest()[:8]
     metadata_file = Path(args.metadata) / ('wav_' + sig + ".json")
     train_path = Path(args.wav) / "train"
-    valid_path = Path(args.wav) / "validation"
+    valid_path = Path(args.wav) / "valid"
     print("train_path", train_path)
     print("valid_path", valid_path)
 
     print("Valid path exists:", valid_path.exists())  # Should print True
 
     print("metadata_file", metadata_file)
+    print("metadata path", Path(args.metadata))
+    print("args.wav", args.wav)
 
     # print("Valid path is a directory:", valid_path.is_dir())  # Should print True
     # print("Valid path contents:", list(valid_path.iterdir()))  # List files in the valid directory
