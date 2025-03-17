@@ -174,6 +174,8 @@ def get_wav_datasets(args):
     metadata_file = Path(args.metadata) / ('wav_' + sig + ".json")
     train_path = Path(args.wav) / "train"
     valid_path = Path(args.wav) / "valid"
+    print("train_path", train_path)
+    print("valid_path", valid_path)
     if not metadata_file.is_file() and accelerator.is_main_process:
         metadata_file.parent.mkdir(exist_ok=True, parents=True)
         train = build_metadata(train_path, args.sources)
