@@ -173,13 +173,16 @@ def get_wav_datasets(args):
     sig = hashlib.sha1(str(args.wav).encode()).hexdigest()[:8]
     metadata_file = Path(args.metadata) / ('wav_' + sig + ".json")
     train_path = Path(args.wav) / "train"
-    valid_path = Path(args.wav) / "valid"
+    valid_path = Path(args.wav) / "validation"
     print("train_path", train_path)
     print("valid_path", valid_path)
 
     print("Valid path exists:", valid_path.exists())  # Should print True
-    print("Valid path is a directory:", valid_path.is_dir())  # Should print True
-    print("Valid path contents:", list(valid_path.iterdir()))  # List files in the valid directory
+
+    print("metadata_file", metadata_file)
+
+    # print("Valid path is a directory:", valid_path.is_dir())  # Should print True
+    # print("Valid path contents:", list(valid_path.iterdir()))  # List files in the valid directory
 
 
     if not metadata_file.is_file() and accelerator.is_main_process:
@@ -188,7 +191,7 @@ def get_wav_datasets(args):
         valid = build_metadata(valid_path, args.sources)
 
         print("Train metadata:", train)
-        print("Valid metadata:", valid)  # 👈 Check if this is empty or None
+        print("Valid metadata:", valid) 
 
         json.dump([train, valid], open(metadata_file, "w"))
     accelerator.wait_for_everyone()
