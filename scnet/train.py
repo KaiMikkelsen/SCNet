@@ -10,6 +10,7 @@ from ml_collections import ConfigDict
 from accelerate import Accelerator
 from .log import logger
 import wandb
+from datetime import datetime
 
 accelerator = Accelerator()
 
@@ -26,15 +27,15 @@ def wandb_init(args: argparse.Namespace, config) -> None:
         batch_size: Batch size for training.
     """
 
-    if args.wandb_key is None or args.wandb_key.strip() == '':
-        wandb.init(mode='disabled')
-    else:
-        wandb.login(key="689bb384f0f7e0a9dbe275c4ba6458d13265990d")
-        wandb.init(
-            project='msst',
-            name="SCNet",
-            config={'config': config, 'args': args}
-        )
+    # if args.wandb_key is None or args.wandb_key.strip() == '':
+    #     wandb.init(mode='disabled')
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    wandb.login(key="689bb384f0f7e0a9dbe275c4ba6458d13265990d")
+    wandb.init(
+        project='SCNet',
+        name=f"SCNet_{date_str}",
+        config={'config': config, 'args': args}
+    )
 
 def get_model(config):
 
