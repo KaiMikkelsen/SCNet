@@ -176,10 +176,20 @@ def get_wav_datasets(args):
     valid_path = Path(args.wav) / "valid"
     print("train_path", train_path)
     print("valid_path", valid_path)
+
+    print("Valid path exists:", valid_path.exists())  # Should print True
+    print("Valid path is a directory:", valid_path.is_dir())  # Should print True
+    print("Valid path contents:", list(valid_path.iterdir()))  # List files in the valid directory
+
+
     if not metadata_file.is_file() and accelerator.is_main_process:
         metadata_file.parent.mkdir(exist_ok=True, parents=True)
         train = build_metadata(train_path, args.sources)
         valid = build_metadata(valid_path, args.sources)
+
+        print("Train metadata:", train)
+        print("Valid metadata:", valid)  # 👈 Check if this is empty or None
+
         json.dump([train, valid], open(metadata_file, "w"))
     accelerator.wait_for_everyone()
 
