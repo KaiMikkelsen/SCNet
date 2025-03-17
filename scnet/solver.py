@@ -136,6 +136,14 @@ class Solver(object):
             formatted = self._format_train(metrics['train'])
             logger.info(
                 f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
+            
+                    # Log metrics to WandB after each epoch
+            wandb.log({
+            'train_loss': metrics['train']['loss'],
+            'train_nsdr': metrics['train']['nsdr'],
+            'epoch': epoch + 1,
+            })
+
 
 
             # Cross validation
@@ -176,6 +184,11 @@ class Solver(object):
               logger.info('New best valid nsdr %.4f', valid_nsdr)
               self.best_state = copy_state(state)
               self.best_nsdr = valid_nsdr
+
+            wandb.log({
+                'best_valid_nsdr': valid_nsdr,
+                'epoch': epoch + 1
+            })
 
             if self.accelerator.is_main_process:
                 self._serialize(epoch)
