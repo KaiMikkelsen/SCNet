@@ -140,7 +140,6 @@ class Solver(object):
                     # Log metrics to WandB after each epoch
             wandb.log({
             'train_loss': metrics['train']['loss'],
-            'train_nsdr': metrics['train']['nsdr'],
             'epoch': epoch + 1,
             })
 
