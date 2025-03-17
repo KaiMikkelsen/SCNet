@@ -1,6 +1,6 @@
 
 data:
-  wav: /home/kaim/scratch/MUSDB18HQ_TEST
+  wav: /home/kaim/scratch/MUSDB18HQ
   samplerate: 44100
   segment: 11
   shift: 1
