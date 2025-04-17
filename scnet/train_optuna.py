@@ -15,6 +15,7 @@ import optuna
 from optuna.trial import Trial
 from optuna.samplers import TPESampler  # You can choose other samplers if needed
 from optuna.trial import TrialState
+import uuid
 
 accelerator = Accelerator()
 
@@ -99,6 +100,8 @@ def get_solver(args):
 
 
 def main():
+
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--save_path", type=str, default='./result/', help="path to config file")
     parser.add_argument("--config_path", type=str, default='./conf/config.yaml', help="path to save checkpoint")
@@ -117,8 +120,43 @@ def main():
 
     solver = get_solver(args)
     accelerator.wait_for_everyone()
-    solver.train()
+    #solver.train()
 
+
+    db_folder = "optunadb"
+    os.makedirs(db_folder, exist_ok=True)  # Create folder if it doesn't exist
+
+    unique_id = uuid.uuid4().hex[:8]  # Generate a short unique ID
+    # Generate a unique filename for each study
+    db_path = os.path.join(db_folder, f"scnet_large_optimization_{datetime.now().strftime('%Y-%m-%d')}_{unique_id}.sqlite3")
+
+    # Create the study with the new database path
+    study = optuna.create_study(
+        direction="maximize",  # Change to "minimize" if optimizing a loss
+        sampler=TPESampler(),  # TPE sampler for efficient search
+        storage=f"sqlite:///{db_path}",  # Save in "optunadb" folder
+        study_name=f"scnet_large_optimization_{datetime.now().strftime('%Y-%m-%d')}_{unique_id}"
+    )
+    
+
+    study.optimize(lambda trial: solver.train(trial, None), n_trials=300)
+
+    pruned_trials = study.get_trials(deepcopy=False, states=[TrialState.PRUNED])
+    complete_trials = study.get_trials(deepcopy=False, states=[TrialState.COMPLETE])
+
+    print("Study statistics: ")
+    print("  Number of finished trials: ", len(study.trials))
+    print("  Number of pruned trials: ", len(pruned_trials))
+    print("  Number of complete trials: ", len(complete_trials))
+
+    print("Best trial:")
+    trial = study.best_trial
+
+    print("  Value: ", trial.value)
+
+    print("  Params: ")
+    for key, value in trial.params.items():
+        print("    {}: {}".format(key, value))
 
 
 if __name__ == "__main__":

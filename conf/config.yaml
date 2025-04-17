@@ -35,8 +35,10 @@ model:
   num_dplayer: 6
   expand: 1
 
-epochs: 200
-batch_size: 4
+# epochs: 200
+  batch_size: 4
+
+  epochs: 8
 
 
 optim:
@@ -63,7 +65,7 @@ augment:
   flip: true
 
 misc:
-  num_workers: 6
+  num_workers: 4
 
 
 

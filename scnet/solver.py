@@ -117,7 +117,88 @@ class Solver(object):
                 losses[key] = format(metrics[key], '.3f')
         return losses
 
-    def train(self):
+    def train(self, trial=None):
+
+        if trial is not None:
+            lr = trial.suggest_loguniform("optim.lr", 1e-5, 1e-3)
+            decay_rate = trial.suggest_uniform("optim.decay_rate", 0.85, 0.99)
+            decay_step = trial.suggest_int("optim.decay_step", 5, 30)
+            momentum = trial.suggest_uniform("optim.momentum", 0.7, 0.99)
+            beta2 = trial.suggest_uniform("optim.beta2", 0.9, 0.999)
+            weight_decay = trial.suggest_loguniform("optim.weight_decay", 1e-6, 1e-2)
+            optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
+
+            # Dims: control model size
+            dims_base = trial.suggest_categorical("model.dims_base", [16, 32, 64])
+            dims = [dims_base // (2 ** i) for i in reversed(range(4))]  # e.g. [4, 8, 16, 32]
+
+            # STFT settings
+            nfft = trial.suggest_categorical("model.nfft", [2048, 4096, 8192])
+            hop_size = nfft // 4
+            win_size = nfft
+
+            # Band split settings
+            band_SR = trial.suggest_categorical("model.band_SR", [
+                [0.175, 0.392, 0.433], [0.1, 0.3, 0.5], [0.2, 0.4, 0.6]
+            ])
+            band_stride = trial.suggest_categorical("model.band_stride", [
+                [1, 4, 16], [1, 2, 8], [2, 4, 16]
+            ])
+            band_kernel = trial.suggest_categorical("model.band_kernel", [
+                [3, 4, 16], [3, 3, 8], [5, 5, 16]
+            ])
+
+            # Conv + RNN
+            conv_depths = trial.suggest_categorical("model.conv_depths", [[3, 2, 1], [2, 2, 2], [4, 3, 2]])
+            compress = trial.suggest_int("model.compress", 2, 8)
+            conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
+            num_dplayer = trial.suggest_int("model.num_dplayer", 3, 8)
+            expand = trial.suggest_int("model.expand", 1, 3)
+                                       
+            batch_size = trial.suggest_categorical("batch_size", [2, 4, 8])
+
+            augment_remix_proba = trial.suggest_uniform("augment.remix.proba", 0.5, 1.0)
+            augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2, 6)
+
+            augment_scale_proba = trial.suggest_uniform("augment.scale.proba", 0.5, 1.0)
+            augment_scale_min = trial.suggest_uniform("augment.scale.min", 0.1, 0.5)
+            augment_scale_max = trial.suggest_uniform("augment.scale.max", 1.0, 1.5)
+
+            augment_flip = trial.suggest_categorical("augment.flip", [True, False])
+
+
+            # Update the config with the suggested hyperparameters
+            self.config.optim.lr = lr
+            self.config.optim.decay_rate = decay_rate
+            self.config.optim.decay_step = decay_step       
+            self.config.optim.momentum = momentum
+            self.config.optim.beta2 = beta2
+            self.config.optim.weight_decay = weight_decay
+            self.config.optim.optimizer = optimizer
+            self.config.model.dims = dims
+            self.config.model.dims_base = dims_base
+            self.config.model.nfft = nfft
+            self.config.model.hop_size = hop_size
+            self.config.model.win_size = win_size
+            self.config.model.band_SR = band_SR
+            self.config.model.band_stride = band_stride
+            self.config.model.band_kernel = band_kernel
+            self.config.model.conv_depths = conv_depths
+            self.config.model.compress = compress       
+            self.config.model.conv_kernel = conv_kernel
+            self.config.model.num_dplayer = num_dplayer
+            self.config.model.expand = expand
+            self.config.data.batch_size = batch_size
+            self.config.augment.remix.proba = augment_remix_proba
+            self.config.augment.remix.group_size = augment_remix_group_size
+            self.config.augment.scale.proba = augment_scale_proba
+            self.config.augment.scale.min = augment_scale_min
+            self.config.augment.scale.max = augment_scale_max   
+            self.config.augment.flip = augment_flip
+
+
+
+
         # Optimizing the model
         for epoch in range(self.epoch + 1, self.config.epochs):
             #Adjust learning rate

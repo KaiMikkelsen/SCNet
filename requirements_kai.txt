@@ -9,3 +9,5 @@ torchaudio
 tqdm
 einops
 wandb
+optuna
+optuna-dashboard

@@ -29,6 +29,6 @@ echo "Dataset path set to: $DATA_PATH"
 
 echo "Running training script for model: $MODEL_TYPE with dataset at $DATA_PATH"
 
-accelerate launch -m scnet.train 
+accelerate launch -m scnet.train_optuna 
 
 
