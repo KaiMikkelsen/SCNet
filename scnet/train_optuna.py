@@ -37,8 +37,8 @@ def wandb_init(args: argparse.Namespace, config) -> None:
     date_str = datetime.now().strftime('%Y-%m-%d')
     wandb.login(key="689bb384f0f7e0a9dbe275c4ba6458d13265990d")
     wandb.init(
-        project='SCNet',
-        name=f"SCNet_{date_str}",
+        project='SCNet_optuna',
+        name=f"SCNet_optuna{date_str}",
         config={'config': config, 'args': args}
     )
 

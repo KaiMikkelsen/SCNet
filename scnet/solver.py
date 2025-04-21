@@ -125,7 +125,7 @@ class Solver(object):
             decay_step = trial.suggest_int("optim.decay_step", 5, 30)
             momentum = trial.suggest_float("optim.momentum", 0.7, 0.99)
             beta2 = trial.suggest_float("optim.beta2", 0.9, 0.999)
-            weight_decay = trial.suggest_float("optim.weight_decay", 1e-6, 1e-2)
+            weight_decay = trial.suggest_int('optim.weight_decay', 0, 1) # Example: Suggest integer 0 or 1
             optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
 
             # Dims: control model size
