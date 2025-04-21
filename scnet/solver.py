@@ -120,12 +120,12 @@ class Solver(object):
     def train(self, trial=None):
 
         if trial is not None:
-            lr = trial.suggest_loguniform("optim.lr", 1e-5, 1e-3)
-            decay_rate = trial.suggest_uniform("optim.decay_rate", 0.85, 0.99)
+            lr = trial.suggest_float("optim.lr", 1e-5, 1e-3)
+            decay_rate = trial.suggest_float("optim.decay_rate", 0.85, 0.99)
             decay_step = trial.suggest_int("optim.decay_step", 5, 30)
-            momentum = trial.suggest_uniform("optim.momentum", 0.7, 0.99)
-            beta2 = trial.suggest_uniform("optim.beta2", 0.9, 0.999)
-            weight_decay = trial.suggest_loguniform("optim.weight_decay", 1e-6, 1e-2)
+            momentum = trial.suggest_float("optim.momentum", 0.7, 0.99)
+            beta2 = trial.suggest_float("optim.beta2", 0.9, 0.999)
+            weight_decay = trial.suggest_float("optim.weight_decay", 1e-6, 1e-2)
             optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
 
             # Dims: control model size
@@ -138,15 +138,20 @@ class Solver(object):
             win_size = nfft
 
             # Band split settings
-            band_SR = trial.suggest_categorical("model.band_SR", [
-                [0.175, 0.392, 0.433], [0.1, 0.3, 0.5], [0.2, 0.4, 0.6]
-            ])
-            band_stride = trial.suggest_categorical("model.band_stride", [
-                [1, 4, 16], [1, 2, 8], [2, 4, 16]
-            ])
-            band_kernel = trial.suggest_categorical("model.band_kernel", [
-                [3, 4, 16], [3, 3, 8], [5, 5, 16]
-            ])
+            sr_0 = trial.suggest_float('band_SR_0', 0.1, 0.3)      # Original: 0.175
+            sr_1 = trial.suggest_float('band_SR_1', 0.3, 0.6)      # Original: 0.392
+            sr_2 = trial.suggest_float('band_SR_2', 0.35, 0.7)     # Original: 0.433
+            band_SR = [sr_0, sr_1, sr_2]
+
+            stride_0 = trial.suggest_int('band_stride_0', 1, 3)     # Original: 1
+            stride_1 = trial.suggest_int('band_stride_1', 2, 8)     # Original: 4
+            stride_2 = trial.suggest_int('band_stride_2', 8, 24)    # Original: 16
+            band_stride = [stride_0, stride_1, stride_2]
+
+            kernel_0 = trial.suggest_int('band_kernel_0', 2, 5)     # Original: 3
+            kernel_1 = trial.suggest_int('band_kernel_1', 3, 8)     # Original: 4
+            kernel_2 = trial.suggest_int('band_kernel_2', 8, 24)    # Original: 16
+            band_kernel = [kernel_0, kernel_1, kernel_2]
 
             # Conv + RNN
             conv_depths = trial.suggest_categorical("model.conv_depths", [[3, 2, 1], [2, 2, 2], [4, 3, 2]])
@@ -157,12 +162,12 @@ class Solver(object):
                                        
             batch_size = trial.suggest_categorical("batch_size", [2, 4, 8])
 
-            augment_remix_proba = trial.suggest_uniform("augment.remix.proba", 0.5, 1.0)
+            augment_remix_proba = trial.suggest_float("augment.remix.proba", 0.5, 1.0)
             augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2, 6)
 
-            augment_scale_proba = trial.suggest_uniform("augment.scale.proba", 0.5, 1.0)
-            augment_scale_min = trial.suggest_uniform("augment.scale.min", 0.1, 0.5)
-            augment_scale_max = trial.suggest_uniform("augment.scale.max", 1.0, 1.5)
+            augment_scale_proba = trial.suggest_float("augment.scale.proba", 0.5, 1.0)
+            augment_scale_min = trial.suggest_float("augment.scale.min", 0.1, 0.5)
+            augment_scale_max = trial.suggest_float("augment.scale.max", 1.0, 1.5)
 
             augment_flip = trial.suggest_categorical("augment.flip", [True, False])
 

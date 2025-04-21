@@ -25,7 +25,7 @@ SCRATCH_DIR=$SLURM_TMPDIR
 
 git pull
 
-rm -r metadata
+#rm -r metadata
 rm -r result
 
 # Variables
