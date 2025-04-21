@@ -11,10 +11,6 @@ from accelerate import Accelerator
 from .log import logger
 import wandb
 from datetime import datetime
-import optuna
-from optuna.trial import Trial
-from optuna.samplers import TPESampler  # You can choose other samplers if needed
-from optuna.trial import TrialState
 
 accelerator = Accelerator()
 

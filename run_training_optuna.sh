@@ -2,9 +2,20 @@
 #SBATCH --gres=gpu:v100l:1       # Request GPU "generic resources"
 #SBATCH --cpus-per-task=6        # Adjust based on your cluster's CPU/GPU ratio
 #SBATCH --mem=125G               # Adjust memory as needed
-#SBATCH --time=3-00:00           # DD-HH:MM:SS
+#SBATCH --time=4-00:00           # DD-HH:MM:SS
 #SBATCH --account=def-ichiro
 #SBATCH --output=slurm_logs/slurm-%j.out  # Use Job ID for unique output files
+
+
+if [ "$(pwd)" = "/home/kaim/projects/def-ichiro/kaim/SCNet" ]; then
+    echo "Do not run this script from the SCNet directory. Exiting."
+    exit 1
+fi
+
+rm -r metadata
+rm -r result
+
+
 
 module load python/3.10 cuda/12.2 cudnn/8.9.5.29
 export XLA_FLAGS=--xla_gpu_cuda_data_dir=$CUDA_HOME
@@ -13,6 +24,9 @@ CURRENT_DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 SCRATCH_DIR=$SLURM_TMPDIR
 
 git pull
+
+rm -r metadata
+rm -r result
 
 # Variables
 MODEL_TYPE="scnet"
