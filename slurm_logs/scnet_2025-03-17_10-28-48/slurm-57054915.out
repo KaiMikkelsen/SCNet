@@ -1,0 +1,76 @@
+Moving ../data/MUSDB18HQ.zip to /localscratch/kaim.57054915.0 for faster access
+cp: cannot stat '../data/MUSDB18HQ.zip': No such file or directory
+unzipping /localscratch/kaim.57054915.0/MUSDB18HQ.zip
+unzip:  cannot find or open /localscratch/kaim.57054915.0/MUSDB18HQ.zip, /localscratch/kaim.57054915.0/MUSDB18HQ.zip.zip or /localscratch/kaim.57054915.0/MUSDB18HQ.zip.ZIP.
+Dataset successfully unzipped.
+Dataset path set to: /localscratch/kaim.57054915.0/MUSDB18HQ
+Running training script for model: scnet with dataset at /localscratch/kaim.57054915.0/MUSDB18HQ
+/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/transformers/utils/generic.py:441: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/transformers/utils/generic.py:309: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `1`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/transformers/utils/generic.py:441: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/transformers/utils/generic.py:309: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+wandb: Using wandb-core as the SDK backend. Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: kaimikkelsen (kaimikkelsen-mcgill-university). Use `wandb login --relogin` to force relogin
+wandb: Appending key for api.wandb.ai to your netrc file: /home/kaim/.netrc
+wandb: Tracking run with wandb version 0.18.0
+wandb: Run data is saved locally in /project/6002780/kaim/SCNet/wandb/run-20250317_103032-f1q08pwf
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SCNet_2025-03-17
+wandb: ⭐️ View project at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet
+wandb: 🚀 View run at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/f1q08pwf
+2025-03-17 10:30:37,372 - INFO - Total number of parameters: 10578768
+2025-03-17 10:30:39,617 - INFO - train/valid set size: 18368 0
+/project/6002780/kaim/SCNet/scnet/solver.py:26: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self.scaler = GradScaler()
+2025-03-17 10:30:39,756 - INFO - Learning rate adjusted to 0.0005
+2025-03-17 10:30:39,759 - INFO - ----------------------------------------------------------------------
+2025-03-17 10:30:39,759 - INFO - Training Epoch 1 ...
+  0%|          | 0/18368 [00:00<?, ?it/s]  0%|          | 0/18368 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 115, in <module>
+    main()
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 110, in main
+    solver.train()
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 135, in train
+    metrics['train'] = self._run_one_epoch(epoch)
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 215, in _run_one_epoch
+    sources = self.augment(sources)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/project/6002780/kaim/SCNet/scnet/augment.py", line 81, in forward
+    raise ValueError(f"Batch size {batch} must be divisible by group size {group_size}")
+ValueError: Batch size 1 must be divisible by group size 4
+[1;34mwandb[0m: 🚀 View run [33mSCNet_2025-03-17[0m at: [34mhttps://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/f1q08pwf[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../../../project/6002780/kaim/SCNet/wandb/run-20250317_103032-f1q08pwf/logs[0m
+Traceback (most recent call last):
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 48, in main
+    args.func(args)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1097, in launch_command
+    simple_launcher(args)
+  File "/project/6002780/kaim/Music-Source-Separation-Training/separation_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 703, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/project/6002780/kaim/Music-Source-Separation-Training/separation_env/bin/python', '-m', 'scnet.train']' returned non-zero exit status 1.

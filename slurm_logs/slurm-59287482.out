@@ -1,0 +1,60 @@
+Dataset path set to: 
+Running training script for model: scnet with dataset at 
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `1`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+wandb: Appending key for api.wandb.ai to your netrc file: /home/kaim/.netrc
+wandb: Currently logged in as: kaimikkelsen (kaimikkelsen-mcgill-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Tracking run with wandb version 0.19.6
+wandb: Run data is saved locally in /project/6002780/kaim/SCNet/wandb/run-20250421_060848-stxmqgk3
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run SCNet_2025-04-21
+wandb: ⭐️ View project at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet
+wandb: 🚀 View run at https://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/stxmqgk3
+2025-04-21 06:08:52,172 - INFO - Total number of parameters: 10578768
+2025-04-21 06:09:04,354 - INFO - train/valid set size: 18368 14
+2025-04-21 06:09:04,533 - INFO - Loading checkpoint model: result/checkpoint.th
+Traceback (most recent call last):
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 125, in <module>
+    main()
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 118, in main
+    solver = get_solver(args)
+  File "/project/6002780/kaim/SCNet/scnet/train.py", line 98, in get_solver
+    return Solver(loaders, model, optimizer, config, args)
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 61, in __init__
+    self._reset()
+  File "/project/6002780/kaim/SCNet/scnet/solver.py", line 83, in _reset
+    package = torch.load(self.checkpoint_file, map_location=self.accelerator.device)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/serialization.py", line 993, in load
+    with _open_zipfile_reader(opened_file) as opened_zipfile:
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/torch/serialization.py", line 447, in __init__
+    super().__init__(torch._C.PyTorchFileReader(name_or_buffer))
+RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mSCNet_2025-04-21[0m at: [34mhttps://wandb.ai/kaimikkelsen-mcgill-university/SCNet/runs/stxmqgk3[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../../../project/6002780/kaim/SCNet/wandb/run-20250421_060848-stxmqgk3/logs[0m
+goung into get_wav_datasets
+train_path /home/kaim/scratch/MUSDB18HQ/train
+valid_path /home/kaim/scratch/MUSDB18HQ/valid
+Valid path exists: True
+metadata_file metadata/wav_6c8313ae.json
+metadata path metadata
+args.wav /home/kaim/scratch/MUSDB18HQ
+Traceback (most recent call last):
+  File "/project/6002780/kaim/SCNet/scnet_env/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1213, in launch_command
+    simple_launcher(args)
+  File "/project/6002780/kaim/SCNet/scnet_env/lib/python3.10/site-packages/accelerate/commands/launch.py", line 795, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/project/6002780/kaim/SCNet/scnet_env/bin/python3', '-m', 'scnet.train']' returned non-zero exit status 1.

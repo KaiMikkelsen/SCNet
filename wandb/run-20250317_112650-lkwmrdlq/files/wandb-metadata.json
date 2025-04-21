@@ -1,0 +1,15 @@
+{
+  "os":  "Linux-5.14.0-362.24.2.el9_3.x86_64-x86_64-Intel-R-_Xeon-R-_CPU_E5-2683_v4_@_2.10GHz-with-glibc2.37",
+  "python":  "3.10.13",
+  "startedAt":  "2025-03-17T18:26:50.402788Z",
+  "program":  "-m scnet.train",
+  "git":  {
+    "remote":  "https://github.com/KaiMikkelsen/SCNet.git",
+    "commit":  "81290e57ed79eaa9755b46df136d9283931e278a"
+  },
+  "email":  "squabee@gmail.com",
+  "root":  "/project/6002780/kaim/SCNet",
+  "host":  "cedar2.int.cedar.computecanada.ca",
+  "username":  "kaim",
+  "executable":  "/project/6002780/kaim/SCNet/scnet_env/bin/python"
+}
