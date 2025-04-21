@@ -10,6 +10,7 @@ from .log import logger
 from accelerate import Accelerator
 from torch.cuda.amp import GradScaler, autocast
 import wandb
+import optuna
 
 def _summary(metrics):
     return " | ".join(f"{key.capitalize()}={val}" for key, val in metrics.items())
@@ -211,21 +212,29 @@ class Solver(object):
         # Optimizing the model
         for epoch in range(self.epoch + 1, self.config.epochs):
             #Adjust learning rate
-            for param_group in self.optimizer.param_groups:
-              param_group['lr'] = self.config.optim.lr * (self.config.optim.decay_rate**((epoch)//self.config.optim.decay_step))
-              logger.info(f"Learning rate adjusted to {self.optimizer.param_groups[0]['lr']}")
+            # for param_group in self.optimizer.param_groups:
+            #   param_group['lr'] = self.config.optim.lr * (self.config.optim.decay_rate**((epoch)//self.config.optim.decay_step))
+            #   logger.info(f"Learning rate adjusted to {self.optimizer.param_groups[0]['lr']}")
 
-            # Train one epoch
-            self.model.train()
-            metrics = {}
-            logger.info('-' * 70)
-            logger.info(f'Training Epoch {epoch + 1} ...')
+            try:
+            
+                # Train one epoch
+                self.model.train()
+                metrics = {}
+                logger.info('-' * 70)
+                logger.info(f'Training Epoch {epoch + 1} ...')
 
 
-            metrics['train'] = self._run_one_epoch(epoch)
-            formatted = self._format_train(metrics['train'])
-            logger.info(
-                f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
+                metrics['train'] = self._run_one_epoch(epoch)
+                formatted = self._format_train(metrics['train'])
+                logger.info(
+                    f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
+            
+
+            except torch.cuda.OutOfMemoryError as e:
+                print(f"Error occurred during training: {e}")
+                torch.cuda.empty_cache()
+                raise optuna.exceptions.TrialPruned()
             
             # Log metrics to WandB after each epoch
             wandb.log({
