@@ -154,7 +154,11 @@ class Solver(object):
             band_kernel = [kernel_0, kernel_1, kernel_2]
 
             # Conv + RNN
-            conv_depths = trial.suggest_categorical("model.conv_depths", [[3, 2, 1], [2, 2, 2], [4, 3, 2]])
+            conv_depths_0 = trial.trial_suggest_int('model.conv_depths_0', 1, 4)     # Original: 3
+            conv_depths_1 = trial.trial_suggest_int('model.conv_depths_1', 1, 4)     # Original: 2                            
+            conv_depths_2 = trial.trial_suggest_int('model.conv_depths_2', 1, 4)     # Original: 1
+            conv_depths = [conv_depths_0, conv_depths_1, conv_depths_2]
+
             compress = trial.suggest_int("model.compress", 2, 8)
             conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
             num_dplayer = trial.suggest_int("model.num_dplayer", 3, 8)
