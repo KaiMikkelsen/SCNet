@@ -118,98 +118,98 @@ class Solver(object):
                 losses[key] = format(metrics[key], '.3f')
         return losses
 
-    def train(self, trial=None):
+    def train(self):
 
-        if trial is not None:
-            lr = trial.suggest_float("optim.lr", 1e-5, 1e-3)
-            decay_rate = trial.suggest_float("optim.decay_rate", 0.85, 0.99)
-            decay_step = trial.suggest_int("optim.decay_step", 5, 30)
-            momentum = trial.suggest_float("optim.momentum", 0.7, 0.99)
-            beta2 = trial.suggest_float("optim.beta2", 0.9, 0.999)
-            weight_decay = trial.suggest_int('optim.weight_decay', 0, 1) # Example: Suggest integer 0 or 1
-            optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
+        # if trial is not None:
+        #     lr = trial.suggest_float("optim.lr", 1e-5, 1e-3)
+        #     decay_rate = trial.suggest_float("optim.decay_rate", 0.85, 0.99)
+        #     decay_step = trial.suggest_int("optim.decay_step", 5, 30)
+        #     momentum = trial.suggest_float("optim.momentum", 0.7, 0.99)
+        #     beta2 = trial.suggest_float("optim.beta2", 0.9, 0.999)
+        #     weight_decay = trial.suggest_int('optim.weight_decay', 0, 1) # Example: Suggest integer 0 or 1
+        #     optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
 
-            # Dims: control model size
-            dims_base = trial.suggest_categorical("model.dims_base", [16, 32, 64])
-            dims = [dims_base // (2 ** i) for i in reversed(range(4))]  # e.g. [4, 8, 16, 32]
+        #     # Dims: control model size
+        #     dims_base = trial.suggest_categorical("model.dims_base", [16, 32, 64])
+        #     dims = [dims_base // (2 ** i) for i in reversed(range(4))]  # e.g. [4, 8, 16, 32]
 
-            # STFT settings
-            nfft = trial.suggest_categorical("model.nfft", [2048, 4096, 8192])
-            hop_size = nfft // 4
-            win_size = nfft
+        #     # STFT settings
+        #     nfft = trial.suggest_categorical("model.nfft", [2048, 4096, 8192])
+        #     hop_size = nfft // 4
+        #     win_size = nfft
 
-            # Band split settings
-            sr_0 = trial.suggest_float('band_SR_0', 0.1, 0.3)      # Original: 0.175
-            sr_1 = trial.suggest_float('band_SR_1', 0.3, 0.6)      # Original: 0.392
-            sr_2 = trial.suggest_float('band_SR_2', 0.35, 0.7)     # Original: 0.433
-            band_SR = [sr_0, sr_1, sr_2]
+        #     # Band split settings
+        #     sr_0 = trial.suggest_float('band_SR_0', 0.1, 0.3)      # Original: 0.175
+        #     sr_1 = trial.suggest_float('band_SR_1', 0.3, 0.6)      # Original: 0.392
+        #     sr_2 = trial.suggest_float('band_SR_2', 0.35, 0.7)     # Original: 0.433
+        #     band_SR = [sr_0, sr_1, sr_2]
 
-            stride_0 = trial.suggest_int('band_stride_0', 1, 3)     # Original: 1
-            stride_1 = trial.suggest_int('band_stride_1', 2, 8)     # Original: 4
-            stride_2 = trial.suggest_int('band_stride_2', 8, 24)    # Original: 16
-            band_stride = [stride_0, stride_1, stride_2]
+        #     stride_0 = trial.suggest_int('band_stride_0', 1, 3)     # Original: 1
+        #     stride_1 = trial.suggest_int('band_stride_1', 2, 8)     # Original: 4
+        #     stride_2 = trial.suggest_int('band_stride_2', 8, 24)    # Original: 16
+        #     band_stride = [stride_0, stride_1, stride_2]
 
-            kernel_0 = trial.suggest_int('band_kernel_0', 2, 5)     # Original: 3
-            kernel_1 = trial.suggest_int('band_kernel_1', 3, 8)     # Original: 4
-            kernel_2 = trial.suggest_int('band_kernel_2', 8, 24)    # Original: 16
-            band_kernel = [kernel_0, kernel_1, kernel_2]
+        #     kernel_0 = trial.suggest_int('band_kernel_0', 2, 5)     # Original: 3
+        #     kernel_1 = trial.suggest_int('band_kernel_1', 3, 8)     # Original: 4
+        #     kernel_2 = trial.suggest_int('band_kernel_2', 8, 24)    # Original: 16
+        #     band_kernel = [kernel_0, kernel_1, kernel_2]
 
-            # Conv + RNN
-            conv_depths_0 = trial.suggest_int('model.conv_depths_0', 1, 4)     # Original: 3
-            conv_depths_1 = trial.suggest_int('model.conv_depths_1', 1, 4)     # Original: 2                            
-            conv_depths_2 = trial.suggest_int('model.conv_depths_2', 1, 4)     # Original: 1
-            conv_depths = [conv_depths_0, conv_depths_1, conv_depths_2]
+        #     # Conv + RNN
+        #     conv_depths_0 = trial.suggest_int('model.conv_depths_0', 1, 4)     # Original: 3
+        #     conv_depths_1 = trial.suggest_int('model.conv_depths_1', 1, 4)     # Original: 2                            
+        #     conv_depths_2 = trial.suggest_int('model.conv_depths_2', 1, 4)     # Original: 1
+        #     conv_depths = [conv_depths_0, conv_depths_1, conv_depths_2]
 
-            compress = trial.suggest_int("model.compress", 2, 8)
-            conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
-            num_dplayer = trial.suggest_int("model.num_dplayer", 3, 8)
-            expand = trial.suggest_int("model.expand", 1, 3)
+        #     compress = trial.suggest_int("model.compress", 2, 8)
+        #     conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
+        #     num_dplayer = trial.suggest_int("model.num_dplayer", 3, 8)
+        #     expand = trial.suggest_int("model.expand", 1, 3)
                                        
-            batch_size = trial.suggest_categorical("batch_size", [2, 4, 8])
+        #     batch_size = trial.suggest_categorical("batch_size", [2, 4, 8])
 
-            augment_remix_proba = trial.suggest_int("augment.remix.proba", 1, 4)
-            augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2, 6)
+        #     augment_remix_proba = trial.suggest_int("augment.remix.proba", 1, 4)
+        #     augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2, 6)
 
-            augment_scale_proba = trial.suggest_int("augment.scale.proba", 1, 4)
-            augment_scale_min = trial.suggest_float("augment.scale.min", 0.1, 0.5)
-            augment_scale_max = trial.suggest_float("augment.scale.max", 1.0, 1.5)
+        #     augment_scale_proba = trial.suggest_int("augment.scale.proba", 1, 4)
+        #     augment_scale_min = trial.suggest_float("augment.scale.min", 0.1, 0.5)
+        #     augment_scale_max = trial.suggest_float("augment.scale.max", 1.0, 1.5)
 
-            augment_flip = trial.suggest_categorical("augment.flip", [True, False])
+        #     augment_flip = trial.suggest_categorical("augment.flip", [True, False])
 
 
-            # Update the config with the suggested hyperparameters
-            self.config.optim.lr = lr
-            self.config.optim.decay_rate = decay_rate
-            self.config.optim.decay_step = decay_step       
-            self.config.optim.momentum = momentum
-            self.config.optim.beta2 = beta2
-            self.config.optim.weight_decay = weight_decay
-            self.config.optim.optimizer = optimizer
-            self.config.model.dims = dims
-            self.config.model.dims_base = dims_base
-            self.config.model.nfft = nfft
-            self.config.model.hop_size = hop_size
-            self.config.model.win_size = win_size
-            self.config.model.band_SR = band_SR
-            self.config.model.band_stride = band_stride
-            self.config.model.band_kernel = band_kernel
-            self.config.model.conv_depths = conv_depths
-            self.config.model.compress = compress       
-            self.config.model.conv_kernel = conv_kernel
-            self.config.model.num_dplayer = num_dplayer
-            self.config.model.expand = expand
-            self.config.data.batch_size = batch_size
-            self.config.augment.remix.proba = augment_remix_proba
-            self.config.augment.remix.group_size = augment_remix_group_size
-            self.config.augment.scale.proba = augment_scale_proba
-            self.config.augment.scale.min = augment_scale_min
-            self.config.augment.scale.max = augment_scale_max   
-            self.config.augment.flip = augment_flip
+        #     # Update the config with the suggested hyperparameters
+        #     self.config.optim.lr = lr
+        #     self.config.optim.decay_rate = decay_rate
+        #     self.config.optim.decay_step = decay_step       
+        #     self.config.optim.momentum = momentum
+        #     self.config.optim.beta2 = beta2
+        #     self.config.optim.weight_decay = weight_decay
+        #     self.config.optim.optimizer = optimizer
+        #     self.config.model.dims = dims
+        #     self.config.model.dims_base = dims_base
+        #     self.config.model.nfft = nfft
+        #     self.config.model.hop_size = hop_size
+        #     self.config.model.win_size = win_size
+        #     self.config.model.band_SR = band_SR
+        #     self.config.model.band_stride = band_stride
+        #     self.config.model.band_kernel = band_kernel
+        #     self.config.model.conv_depths = conv_depths
+        #     self.config.model.compress = compress       
+        #     self.config.model.conv_kernel = conv_kernel
+        #     self.config.model.num_dplayer = num_dplayer
+        #     self.config.model.expand = expand
+        #     self.config.data.batch_size = batch_size
+        #     self.config.augment.remix.proba = augment_remix_proba
+        #     self.config.augment.remix.group_size = augment_remix_group_size
+        #     self.config.augment.scale.proba = augment_scale_proba
+        #     self.config.augment.scale.min = augment_scale_min
+        #     self.config.augment.scale.max = augment_scale_max   
+        #     self.config.augment.flip = augment_flip
 
 
             # Reinitialize the model and optimizer with the new config
-            self.model = self.config.model.create_model(self.config)
-            self.optimizer = self.config.optim.create_optimizer(self.model.parameters(), self.config)       
+            #self.model = self.config.model.create_model(self.config)
+            #self.optimizer = self.config.optim.create_optimizer(self.model.parameters(), self.config)       
 
         # Optimizing the model
         for epoch in range(self.epoch + 1, self.config.epochs):
@@ -296,11 +296,11 @@ class Solver(object):
                 self._serialize(epoch)
             if epoch == self.config.epochs - 1:
                 break
-        if trial is not None:
-            import os
-            if os.path.exists(self.checkpoint_file):
-                os.remove(self.checkpoint_file)
-                logger.info(f"Checkpoint file {self.checkpoint_file} cleared after trial.")
+        # if trial is not None:
+        #     import os
+        #     if os.path.exists(self.checkpoint_file):
+        #         os.remove(self.checkpoint_file)
+        #         logger.info(f"Checkpoint file {self.checkpoint_file} cleared after trial.")
         return self.best_nsdr
     
 
