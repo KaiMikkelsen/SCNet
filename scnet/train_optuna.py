@@ -90,7 +90,7 @@ def get_solver(args, trial):
     conv_depths_2 = trial.suggest_int('model.conv_depths_2', 1, 4)     # Original: 1
     conv_depths = [conv_depths_0, conv_depths_1, conv_depths_2]
     compress = trial.suggest_int("model.compress", 2, 8)
-    conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
+    #conv_kernel = trial.suggest_int("model.conv_kernel", 1, 5)
     num_dplayer = trial.suggest_int("model.num_dplayer", 3, 8)
     expand = trial.suggest_int("model.expand", 1, 3)
                                
@@ -118,7 +118,7 @@ def get_solver(args, trial):
     config.model.band_kernel = band_kernel
     config.model.conv_depths = conv_depths
     config.model.compress = compress       
-    config.model.conv_kernel = conv_kernel
+    #config.model.conv_kernel = conv_kernel
     config.model.num_dplayer = num_dplayer
     config.model.expand = expand
     config.batch_size = batch_size
