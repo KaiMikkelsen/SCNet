@@ -96,7 +96,7 @@ def get_solver(args, trial):
                                
     batch_size = trial.suggest_categorical("batch_size", [2, 4, 8])
     augment_remix_proba = trial.suggest_int("augment.remix.proba", 1, 4)
-    augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2)
+    #augment_remix_group_size = trial.suggest_int("augment.remix.group_size", 2)
     augment_scale_proba = trial.suggest_int("augment.scale.proba", 1, 4)
     augment_scale_min = trial.suggest_float("augment.scale.min", 0.1, 0.5)
     augment_scale_max = trial.suggest_float("augment.scale.max", 1.0, 1.5)
