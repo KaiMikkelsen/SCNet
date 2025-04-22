@@ -207,7 +207,9 @@ class Solver(object):
             self.config.augment.flip = augment_flip
 
 
-
+            # Reinitialize the model and optimizer with the new config
+            self.model = self.config.model.create_model(self.config)
+            self.optimizer = self.config.optim.create_optimizer(self.model.parameters(), self.config)       
 
         # Optimizing the model
         for epoch in range(self.epoch + 1, self.config.epochs):
@@ -294,6 +296,13 @@ class Solver(object):
                 self._serialize(epoch)
             if epoch == self.config.epochs - 1:
                 break
+        if trial is not None:
+            import os
+            if os.path.exists(self.checkpoint_file):
+                os.remove(self.checkpoint_file)
+                logger.info(f"Checkpoint file {self.checkpoint_file} cleared after trial.")
+        return self.best_nsdr
+    
 
 
     def _run_one_epoch(self, epoch, train=True):
