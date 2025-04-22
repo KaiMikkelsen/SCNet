@@ -110,7 +110,6 @@ def get_solver(args, trial):
     config.optim.weight_decay = weight_decay
     config.optim.optimizer = optimizer
     config.model.dims = dims
-    config.model.dims_base = dims_base
     config.model.nfft = nfft
     config.model.hop_size = hop_size
     config.model.win_size = win_size
@@ -122,7 +121,7 @@ def get_solver(args, trial):
     config.model.conv_kernel = conv_kernel
     config.model.num_dplayer = num_dplayer
     config.model.expand = expand
-    config.data.batch_size = batch_size
+    config.batch_size = batch_size
     config.augment.remix.proba = augment_remix_proba
     config.augment.remix.group_size = augment_remix_group_size
     config.augment.scale.proba = augment_scale_proba
@@ -177,8 +176,6 @@ def get_solver(args, trial):
 
 
 def objective(trial: Trial):
-
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--save_path", type=str, default='./result/', help="path to config file")
