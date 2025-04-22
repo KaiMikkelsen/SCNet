@@ -123,7 +123,7 @@ def get_solver(args, trial):
     config.model.expand = expand
     config.batch_size = batch_size
     config.augment.remix.proba = augment_remix_proba
-    config.augment.remix.group_size = augment_remix_group_size
+    # config.augment.remix.group_size = augment_remix_group_size
     config.augment.scale.proba = augment_scale_proba
     config.augment.scale.min = augment_scale_min
     config.augment.scale.max = augment_scale_max   
