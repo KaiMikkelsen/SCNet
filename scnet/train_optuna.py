@@ -65,8 +65,10 @@ def get_solver(args, trial):
     weight_decay = trial.suggest_int('optim.weight_decay', 0, 1) # Example: Suggest integer 0 or 1
     optimizer = trial.suggest_categorical("optimizer", ["adam", "adamw", "sgd"])
     # Dims: control model size
-    dims_base = trial.suggest_categorical("model.dims_base", [16, 32, 64])
-    dims = [dims_base // (2 ** i) for i in reversed(range(4))]  # e.g. [4, 8, 16, 32]
+    #dims_base = trial.suggest_categorical("model.dims_base", [16, 32, 64])
+    #dims_base = trial.suggest_categorical("model.dims_base", [2, 4]) # Removed 32
+
+    #dims = [dims_base // (2 ** i) for i in reversed(range(4))]  # e.g. [4, 8, 16, 32]
     # STFT settings
     nfft = trial.suggest_categorical("model.nfft", [2048, 4096, 8192])
     hop_size = nfft // 4
@@ -109,7 +111,7 @@ def get_solver(args, trial):
     config.optim.beta2 = beta2
     config.optim.weight_decay = weight_decay
     config.optim.optimizer = optimizer
-    config.model.dims = dims
+    #config.model.dims = dims
     config.model.nfft = nfft
     config.model.hop_size = hop_size
     config.model.win_size = win_size
