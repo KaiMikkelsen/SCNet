@@ -57,7 +57,7 @@ augment:
   shift_same: false
   remix:
     proba: 1
-    group_size: 4
+    group_size: 2
     #group_size: 4
   scale:
     proba: 1
