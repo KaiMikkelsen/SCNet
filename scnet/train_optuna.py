@@ -178,12 +178,18 @@ def get_solver(args, trial):
 
 
 def objective(trial: Trial):
+    import shutil
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--save_path", type=str, default='./result/', help="path to config file")
     parser.add_argument("--config_path", type=str, default='./conf/config.yaml', help="path to save checkpoint")
     args = parser.parse_args()
 
+    if os.path.exists(args.save_path) and os.path.isdir(args.save_path):
+        shutil.rmtree(args.save_path)
+        print(f"Deleted directory: {args.save_path}")
+    else:
+        print(f"No directory found at: {args.save_path}")
 
     if not os.path.exists(args.save_path):
         os.makedirs(args.save_path)
