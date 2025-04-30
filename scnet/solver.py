@@ -75,7 +75,8 @@ class Solver(object):
             checkpoint_with_steps = Path(self.checkpoint_file).with_name(f'checkpoint_{epoch+1}_{steps}.th')
             self.accelerator.save(package, checkpoint_with_steps)
         else:
-            self.accelerator.save(package, self.checkpoint_file)
+            #self.accelerator.save(package, self.checkpoint_file, safe_serialization=True)
+            torch.save(package, self.checkpoint_file, _use_new_zipfile_serialization=False)
 
     def _reset(self):
         """Reset state of the solver, potentially using checkpoint."""
