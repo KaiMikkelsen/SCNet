@@ -13,12 +13,20 @@ ema:
   epoch: [0.9, 0.95]
   batch: [0.9995, 0.9999]
 
+# added to work with the other one
 training:
   instruments:
     - drums
     - bass
     - other
     - vocals
+
+# added to work with the other one
+inference:
+  batch_size: 8
+  dim_t: 256
+  num_overlap: 4
+  normalize: true
 
 model:
   sources: ['drums', 'bass', 'other', 'vocals']
