@@ -22,6 +22,7 @@ training:
     - bass
     - other
     - vocals
+  other_fix: false
 
 # added to work with the other one
 inference:
