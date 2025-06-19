@@ -237,7 +237,7 @@ class Solver(object):
             except torch.cuda.OutOfMemoryError as e:
                 print(f"Error occurred during training: {e}")
                 torch.cuda.empty_cache()
-                raise optuna.exceptions.TrialPruned()
+                #raise optuna.exceptions.TrialPruned()
             
             # Log metrics to WandB after each epoch
             wandb.log({

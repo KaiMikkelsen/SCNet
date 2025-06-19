@@ -111,6 +111,8 @@ def main():
         config_dict = yaml.safe_load(file)
         wandb_init(args, config_dict)
 
+        
+
     solver = get_solver(args)
     accelerator.wait_for_everyone()
     solver.train()
