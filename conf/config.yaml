@@ -35,7 +35,7 @@ model:
   expand: 1
 
 epochs: 130
-batch_size: 4
+batch_size: 1
 
 optim:
   lr: 0.0003
