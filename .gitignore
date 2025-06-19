@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+scnet_env/
+
+slurm_logs/
+
 # Distribution / packaging
 .Python
 build/
