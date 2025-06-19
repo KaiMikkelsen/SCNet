@@ -53,7 +53,7 @@ augment:
   shift_same: false
   remix:
     proba: 1
-    group_size: 4
+    group_size: 1
   scale:
     proba: 1
     min: 0.25
