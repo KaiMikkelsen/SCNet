@@ -240,12 +240,12 @@ class Solver(object):
                 #raise optuna.exceptions.TrialPruned()
             
             # Log metrics to WandB after each epoch
-            wandb.log({
-            'train_loss': metrics['train']['loss'],
-            'train_sdr': metrics['train'].get('sdr', None),  # Use get() to avoid errors if missing
-            'train_nsdr': metrics['train'].get('nsdr', None),
-            'epoch': epoch + 1,
-            })
+            # wandb.log({
+            # 'train_loss': metrics['train']['loss'],
+            # 'train_sdr': metrics['train'].get('sdr', None),  # Use get() to avoid errors if missing
+            # 'train_nsdr': metrics['train'].get('nsdr', None),
+            # 'epoch': epoch + 1,
+            # })
 
 
 
@@ -288,10 +288,10 @@ class Solver(object):
               self.best_state = copy_state(state)
               self.best_nsdr = valid_nsdr
 
-            wandb.log({
-                'best_valid_nsdr': valid_nsdr,
-                'epoch': epoch + 1
-            })
+            # wandb.log({
+            #     'best_valid_nsdr': valid_nsdr,
+            #     'epoch': epoch + 1
+            # })
 
             if self.accelerator.is_main_process:
                 self._serialize(epoch)
