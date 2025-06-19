@@ -33,7 +33,7 @@ def wandb_init(args: argparse.Namespace, config) -> None:
     wandb.login(key="689bb384f0f7e0a9dbe275c4ba6458d13265990d")
     wandb.init(
         project='SCNet',
-        name=f"SCNet_{date_str}",
+        name=f"SCNet_guitar_{date_str}",
         config={'config': config, 'args': args}
     )
 
