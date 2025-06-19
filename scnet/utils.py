@@ -11,7 +11,9 @@ from contextlib import contextmanager
 # Audio
 def convert_audio_channels(wav, channels=2):
     """Convert audio to the given number of channels."""
+
     if wav.ndim == 1:
+
         src_channels = 1
     else:
         src_channels = wav.shape[-2]
@@ -22,7 +24,7 @@ def convert_audio_channels(wav, channels=2):
         if src_channels > 1:
             wav = wav.mean(dim=-2, keepdim=True)
     elif src_channels == 1:
-        wav = wav.expand(-1, channels, -1)
+        wav = wav.expand(channels, -1)
     elif src_channels >= channels:
         wav = wav[..., :channels, :]
     else:

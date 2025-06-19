@@ -1,55 +1,29 @@
-
 data:
-  wav: /home/kaim/scratch/MUSDB18HQ2
+  wav: /Users/kaimikkelsen/SCNet_guitar/data/guitar_hum_dataset_split
   samplerate: 44100
   segment: 11
-  shift: 1
+  shift: 0.5
   channels: 2
   normalize: true
   metadata: ./metadata
-  sources: ['drums', 'bass', 'other', 'vocals']
-
-
+  sources: ['clean', 'hum']
 
 ema:
   epoch: [0.9, 0.95]
   batch: [0.9995, 0.9999]
 
-# added to work with the other one
-training:
-  instruments:
-    - drums
-    - bass
-    - other
-    - vocals
-  other_fix: false
-
-# added to work with the other one
-inference:
-  batch_size: 8
-  dim_t: 256
-  num_overlap: 4
-  normalize: true
-
-# added to work with the other one
-audio:
-  chunk_size: 485100 # 44100 * 11
-  num_channels: 2
-  sample_rate: 44100
-  min_mean_abs: 0.000
-
 model:
-  sources: ['drums', 'bass', 'other', 'vocals']
+  sources: ['clean', 'hum']
   audio_channels: 2
   # Main structure
-  dims: [4, 32, 64, 128]
+  dims: [4, 64, 128, 256]
   # STFT
   nfft: 4096
   hop_size: 1024
   win_size: 4096
   normalized: True
   # SD/SU layer
-  band_SR: [0.175, 0.392, 0.433]     
+  band_SR: [0.225, 0.372, 0.403]     
   band_stride: [1, 4, 16]             
   band_kernel: [3, 4, 16]                  
   # Convolution Module
@@ -60,14 +34,11 @@ model:
   num_dplayer: 6
   expand: 1
 
-# epochs: 200
+epochs: 130
 batch_size: 4
 
-epochs: 8
-
-
 optim:
-  lr: 0.0005
+  lr: 0.0003
   decay_rate: 0.98
   decay_step: 10
   momentum: 0.9
@@ -82,8 +53,7 @@ augment:
   shift_same: false
   remix:
     proba: 1
-    group_size: 2
-    #group_size: 4
+    group_size: 4
   scale:
     proba: 1
     min: 0.25
@@ -91,18 +61,4 @@ augment:
   flip: true
 
 misc:
-  num_workers: 4
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  num_workers: 10

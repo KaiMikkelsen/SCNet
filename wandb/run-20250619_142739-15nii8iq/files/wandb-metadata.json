@@ -1,0 +1,42 @@
+{
+  "os":  "macOS-15.5-arm64-arm-64bit",
+  "python":  "CPython 3.10.0",
+  "startedAt":  "2025-06-19T18:27:39.281616Z",
+  "program":  "-m scnet.train",
+  "git":  {
+    "remote":  "https://github.com/KaiMikkelsen/SCNet.git",
+    "commit":  "fd5108df88aa9ac89ed403a5f16fed81917d5919"
+  },
+  "email":  "squabee@gmail.com",
+  "root":  "/Users/kaimikkelsen/SCNet_guitar/SCNet",
+  "host":  "MacBookAir.ht.home",
+  "executable":  "/Users/kaimikkelsen/SCNet_guitar/SCNet/env/bin/python3",
+  "cpu_count":  8,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "245107195904",
+      "used":  "226392608768"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "245107195904",
+      "used":  "226392608768"
+    }
+  },
+  "memory":  {
+    "total":  "8589934592"
+  },
+  "cpu":  {
+    "count":  8,
+    "countLogical":  8
+  },
+  "apple":  {
+    "name":  "Apple M1",
+    "ecpuCores":  4,
+    "pcpuCores":  4,
+    "gpuCores":  7,
+    "memoryGb":  8,
+    "swapTotalBytes":  "5368709120",
+    "ramTotalBytes":  "8589934592"
+  }
+}

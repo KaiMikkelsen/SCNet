@@ -1,0 +1,14 @@
+{
+  "os":  "macOS-15.5-arm64-arm-64bit",
+  "python":  "CPython 3.10.0",
+  "startedAt":  "2025-06-19T18:09:59.740657Z",
+  "program":  "-m scnet.train",
+  "git":  {
+    "remote":  "https://github.com/KaiMikkelsen/SCNet.git",
+    "commit":  "fd5108df88aa9ac89ed403a5f16fed81917d5919"
+  },
+  "email":  "squabee@gmail.com",
+  "root":  "/Users/kaimikkelsen/SCNet_guitar/SCNet",
+  "host":  "MacBookAir.ht.home",
+  "executable":  "/Users/kaimikkelsen/SCNet_guitar/SCNet/env/bin/python3"
+}
