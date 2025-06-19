@@ -8,7 +8,6 @@ __pycache__/
 
 scnet_env/
 
-slurm_logs/
 
 # Distribution / packaging
 .Python
