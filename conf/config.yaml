@@ -1,5 +1,5 @@
 data:
-  wav: /Users/kaimikkelsen/SCNet_guitar/data/guitar_hum_dataset_split
+  wav: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split
   samplerate: 44100
   segment: 11
   shift: 0.5
