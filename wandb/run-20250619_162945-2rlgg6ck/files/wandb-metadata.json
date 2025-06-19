@@ -1,0 +1,32 @@
+{
+  "os":  "Linux-4.18.0-553.50.1.el8_10.x86_64-x86_64-AMD_EPYC_7532_32-Core_Processor-with-glibc2.37",
+  "python":  "CPython 3.10.13",
+  "startedAt":  "2025-06-19T20:29:46.121411Z",
+  "program":  "-m scnet.train",
+  "git":  {
+    "remote":  "https://github.com/KaiMikkelsen/SCNet.git",
+    "commit":  "ef6a3bcc195971bfa87dacfdee215fd3a17500c3"
+  },
+  "email":  "squabee@gmail.com",
+  "root":  "/lustre06/project/6002780/kaim/SCNet",
+  "host":  "narval2.narval.calcul.quebec",
+  "executable":  "/lustre06/project/6002780/kaim/SCNet/env/bin/python3",
+  "cpu_count":  64,
+  "cpu_count_logical":  64,
+  "disk":  {
+    "/":  {
+      "total":  "17179869184",
+      "used":  "7185813504"
+    }
+  },
+  "memory":  {
+    "total":  "269886087168"
+  },
+  "cpu":  {
+    "count":  64,
+    "countLogical":  64
+  },
+  "slurm":  {
+    "mpi_type":  "pmix"
+  }
+}
