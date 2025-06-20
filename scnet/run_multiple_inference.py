@@ -126,7 +126,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--test_set_root',
         type=str,
-        required=True,
+        default='/home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split/test',
         help='The root directory of your test set (e.g., /path/to/test_data/)'
     )
     parser.add_argument(
