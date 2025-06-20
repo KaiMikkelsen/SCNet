@@ -3,6 +3,7 @@
 import random
 import torch as th
 from torch import nn
+from pedalboard import Pedalboard, Distortion, Reverb
 
 class Shift(nn.Module):
     """
@@ -102,3 +103,78 @@ class Scale(nn.Module):
             scales = th.empty(batch, streams, 1, 1, device=device).uniform_(self.min, self.max)
             wav *= scales
         return wav
+
+# --- SIMPLIFIED Pedalboard Augmentation Class for STEREO Testing ---
+class SimplifiedPedalboardEffectModule(nn.Module):
+    """
+    A simplified Pedalboard effect module for testing, specifically designed for STEREO audio.
+    Applies a fixed set of basic effects (Distortion, Reverb) to the STEREO audio mixture.
+    Input `wav` is expected as (batch, streams, channels=2, time).
+    The module sums `streams` to get the stereo mix, applies effects, and then scales
+    the original `streams` so their sum matches the effected stereo mix.
+    """
+    def __init__(self, sample_rate, proba=1.0):
+        super().__init__()
+        self.sample_rate = sample_rate
+        self.proba = proba # Probability of applying this augmentation
+
+        # Define a super simple, fixed set of effects for testing
+        self.effects = [
+            Distortion(drive_db=15), # Gentle distortion
+            Reverb(room_size=0.2, wet_level=0.1), # Small, subtle reverb
+        ]
+        self.pedalboard = Pedalboard(self.effects)
+
+    def forward(self, wav):
+        batch, streams, channels, time = wav.size()
+        device = wav.device
+
+        # Assert that input is stereo
+        if channels != 2:
+            raise ValueError(f"SimplifiedPedalboardEffectModule expects stereo input (channels=2), but got {channels}.")
+
+        # Skip augmentation if not training or random check fails
+        if not self.training or random.random() >= self.proba:
+            return wav
+
+        # 1. Create the stereo mixture from the input 'wav' tensor
+        # Sum across the 'streams' dimension: (batch, channels, time) -> (batch, 2, time)
+        mix_to_effect = wav.sum(dim=1)
+
+        processed_mix_batch = []
+        for i in range(batch):
+            # Extract one stereo mix from the batch, convert to numpy (float32, on CPU)
+            # Input to Pedalboard should be (channels, samples)
+            current_stereo_mix_np = mix_to_effect[i].cpu().numpy().astype(np.float32) # Shape (2, time)
+
+            # Apply Pedalboard effects
+            # Pedalboard will automatically handle stereo input if shaped (2, samples)
+            effected_audio_np = self.pedalboard(current_stereo_mix_np, self.sample_rate)
+
+            # Ensure the output is still (channels, time) for stacking back to PyTorch
+            if effected_audio_np.ndim != 2 or effected_audio_np.shape[0] != 2:
+                # This check ensures Pedalboard didn't unexpectedly change channel count
+                raise RuntimeError(
+                    f"Pedalboard returned unexpected shape {effected_audio_np.shape}. Expected (2, time)."
+                )
+
+            processed_mix_batch.append(th.from_numpy(effected_audio_np).to(device))
+
+        # Stack the processed stereo mixes back into a tensor
+        # Resulting shape: (batch, 2, time)
+        effected_mix_tensor = th.stack(processed_mix_batch, dim=0)
+
+        # 2. Re-distribute the effect back onto the original sources (streams)
+        # Calculate original sum for scaling - this will also be (batch, 2, time)
+        original_sum = wav.sum(dim=1)
+
+        # Calculate scaling factor to adjust individual sources
+        # Add epsilon for numerical stability when dividing by potentially zero values
+        # Unsqueeze(1) broadcasts the (batch, 2, time) scale factors over the 'streams' dim
+        scale_factors = (effected_mix_tensor / (original_sum + 1e-8)).unsqueeze(1)
+
+        # Apply scaling to the original individual sources
+        # wav_out will have the same shape as wav: (batch, streams, channels=2, time)
+        wav_out = wav * scale_factors
+
+        return wav_out

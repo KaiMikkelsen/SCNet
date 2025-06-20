@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # Based on your screenshot, it would be the full path to that folder.
     # Example: dataset_path = "/path/to/your/project/guitar_hum_dataset_split"
     # or if this script is in the parent directory of guitar_hum_dataset_split:
-    dataset_path = "/Users/kaimikkelsen/SCNet_guitar/data/guitar_hum_dataset_split" 
+    dataset_path = "/home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split" 
     
     # Make sure the path exists
     if not os.path.isdir(dataset_path):

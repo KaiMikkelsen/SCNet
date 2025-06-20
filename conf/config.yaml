@@ -58,7 +58,8 @@ augment:
     proba: 1
     min: 0.25
     max: 1.25
-  flip: true
+  flip: false
+  pedalboard: true
 
 misc:
   num_workers: 10

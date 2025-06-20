@@ -10,3 +10,4 @@ tqdm
 einops==0.6.1
 wandb
 optuna
+pedalboard
