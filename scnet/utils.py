@@ -12,11 +12,19 @@ from contextlib import contextmanager
 def convert_audio_channels(wav, channels=2):
     """Convert audio to the given number of channels."""
 
-    if wav.ndim == 1:
+    print("\n--- convert_audio_channels DEBUG START ---")
+    print(f"Input WAV tensor: ndim={wav.ndim}, shape={wav.shape}, dtype={wav.dtype}")
+    print(f"Target 'channels' requested: {channels}")
 
+
+
+    if wav.ndim == 1:
         src_channels = 1
     else:
         src_channels = wav.shape[-2]
+
+    print(f"Calculated source channels: {src_channels}")
+    print(f"Comparison: src_channels ({src_channels}) vs target channels ({channels})")
 
     if src_channels == channels:
         pass
