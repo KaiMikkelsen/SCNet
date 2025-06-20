@@ -4,6 +4,7 @@ import random
 import torch as th
 from torch import nn
 from pedalboard import Pedalboard, Distortion, Reverb
+import numpy as np
 
 class Shift(nn.Module):
     """
