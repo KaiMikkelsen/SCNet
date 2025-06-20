@@ -25,7 +25,7 @@ class Seperator:
 
     @property
     def instruments(self):
-        return ['bass', 'drums', 'other', 'vocals']
+        return ['clean', 'hum']
 
     def raise_aicrowd_error(self, msg):
         raise NameError(msg)
