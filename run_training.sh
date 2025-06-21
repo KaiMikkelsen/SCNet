@@ -4,7 +4,6 @@
 #SBATCH --mem=125G               # Adjust memory as needed
 #SBATCH --time=6-00:00           # DD-HH:MM:SS
 #SBATCH --account=def-ichiro
-#SBATCH --output=slurm_logs/slurm-%j.out  # Use Job ID for unique output files
 
 module load python/3.10 cuda/12.2 cudnn/8.9.5.29 rust
 export XLA_FLAGS=--xla_gpu_cuda_data_dir=$CUDA_HOME

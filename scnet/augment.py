@@ -178,4 +178,5 @@ class SimplifiedPedalboardEffectModule(nn.Module):
         # wav_out will have the same shape as wav: (batch, streams, channels=2, time)
         wav_out = wav * scale_factors
 
+        print("forward wav out")
         return wav_out
