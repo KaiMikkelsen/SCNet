@@ -9,7 +9,7 @@ from pedalboard import Pedalboard, Gain, HighpassFilter, LowpassFilter, PitchShi
 INPUT_HUMS_DIR = '/Users/kaimikkelsen/SCNet_guitar/data/recorded_hums'
 OUTPUT_AUGMENTED_HUMS_DIR = '/Users/kaimikkelsen/SCNet_guitar/data/augmented_hums' # New output directory for stereo hums
 
-NUM_AUGMENTATIONS_PER_HUM = 20 
+NUM_AUGMENTATIONS_PER_HUM = 60 
 SAMPLE_RATE = 44100 # Ensure this matches your model's expected SR
 
 # Create output directory if it doesn't exist
