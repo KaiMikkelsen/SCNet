@@ -9,8 +9,6 @@ from tqdm import tqdm
 from .log import logger
 from accelerate import Accelerator
 from torch.cuda.amp import GradScaler, autocast
-import wandb
-import optuna
 
 def _summary(metrics):
     return " | ".join(f"{key.capitalize()}={val}" for key, val in metrics.items())
@@ -52,13 +50,10 @@ class Solver(object):
             if kw.proba:
                 augments.append(getattr(augment, aug.capitalize())(**kw))
 
-        if getattr(config.augment, 'pedalboard', False): # Default to False if 'pedalboard' isn't in config
-            augments.append(augment.SimplifiedPedalboardEffectModule(
-                sample_rate=config.data.samplerate,
-                proba=1.0 # Assuming you want to always apply if 'pedalboard: true' is present
-                          # You could make this configurable later:
-                          # proba=getattr(config.augment, 'pedalboard_proba', 1.0)
-            ))
+        augments.append(augment.PedalboardEffectModule(
+            config.augment.pedalboard,
+            config.data.samplerate))
+        
         self.augment = torch.nn.Sequential(*augments)
 
         self.folder = args.save_path
@@ -83,7 +78,7 @@ class Solver(object):
             checkpoint_with_steps = Path(self.checkpoint_file).with_name(f'checkpoint_{epoch+1}_{steps}.th')
             self.accelerator.save(package, checkpoint_with_steps)
         else:
-            #self.accelerator.save(package, self.checkpoint_file, safe_serialization=True)
+                        #self.accelerator.save(package, self.checkpoint_file, safe_serialization=True)
             torch.save(package, self.checkpoint_file, _use_new_zipfile_serialization=False)
 
     def _reset(self):
@@ -128,38 +123,24 @@ class Solver(object):
         return losses
 
     def train(self):
-
         # Optimizing the model
         for epoch in range(self.epoch + 1, self.config.epochs):
+            #Adjust learning rate
+            for param_group in self.optimizer.param_groups:
+              param_group['lr'] = self.config.optim.lr * (self.config.optim.decay_rate**((epoch)//self.config.optim.decay_step))
+              logger.info(f"Learning rate adjusted to {self.optimizer.param_groups[0]['lr']}")
 
-            try:
-            
-                # Train one epoch
-                self.model.train()
-                metrics = {}
-                logger.info('-' * 70)
-                logger.info(f'Training Epoch {epoch + 1} ...')
+            # Train one epoch
+            self.model.train()
+            metrics = {}
+            logger.info('-' * 70)
+            logger.info(f'Training Epoch {epoch + 1} ...')
 
 
-                metrics['train'] = self._run_one_epoch(epoch)
-                formatted = self._format_train(metrics['train'])
-                logger.info(
-                    f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
-            
-
-            except torch.cuda.OutOfMemoryError as e:
-                print(f"Error occurred during training: {e}")
-                torch.cuda.empty_cache()
-                #raise optuna.exceptions.TrialPruned()
-            
-            # Log metrics to WandB after each epoch
-            # wandb.log({
-            # 'train_loss': metrics['train']['loss'],
-            # 'train_sdr': metrics['train'].get('sdr', None),  # Use get() to avoid errors if missing
-            # 'train_nsdr': metrics['train'].get('nsdr', None),
-            # 'epoch': epoch + 1,
-            # })
-
+            metrics['train'] = self._run_one_epoch(epoch)
+            formatted = self._format_train(metrics['train'])
+            logger.info(
+                f'Train Summary | Epoch {epoch + 1} | {_summary(formatted)}')
 
 
             # Cross validation
@@ -201,17 +182,10 @@ class Solver(object):
               self.best_state = copy_state(state)
               self.best_nsdr = valid_nsdr
 
-            # wandb.log({
-            #     'best_valid_nsdr': valid_nsdr,
-            #     'epoch': epoch + 1
-            # })
-
             if self.accelerator.is_main_process:
                 self._serialize(epoch)
             if epoch == self.config.epochs - 1:
                 break
-        return self.best_nsdr
-    
 
 
     def _run_one_epoch(self, epoch, train=True):
@@ -232,10 +206,6 @@ class Solver(object):
             sources = sources.to(self.device)
             if train:
                 sources = self.augment(sources)
-
-
-
-
                 mix = sources.sum(dim=1)
             else:
                 mix = sources[:, 0]

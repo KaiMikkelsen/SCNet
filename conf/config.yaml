@@ -1,5 +1,7 @@
 data:
-  wav: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split
+  wav: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_final_random_config
+  #wav: /Users/kaimikkelsen/SCNet_guitar/data/small_set
+  #wav: /Users/kaimikkelsen/SCNet_guitar/data/small_mus
   samplerate: 44100
   segment: 11
   shift: 0.5
@@ -34,7 +36,7 @@ model:
   num_dplayer: 6
   expand: 1
 
-epochs: 130
+epochs: 100
 batch_size: 1
 
 optim:
