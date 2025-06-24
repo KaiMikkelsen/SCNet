@@ -203,5 +203,5 @@ class PedalboardEffectModule(nn.Module):
                 
                 processed_streams[b, s] = th.from_numpy(effected_audio_np).to(device)
 
-        print(f"Processed {batch} batches with {streams} streams each using Pedalboard effects: {[type(effect).__name__ for effect in board.effects]}")
+        #print(f"Processed {batch} batches with {streams} streams each using Pedalboard effects: {[type(effect).__name__ for effect in board.effects]}")
         return processed_streams
