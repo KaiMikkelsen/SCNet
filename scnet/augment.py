@@ -154,7 +154,6 @@ class PedalboardEffectModule(nn.Module):
             Phaser(),
             Delay(delay_seconds=random.uniform(1, 3), mix=random.uniform(0.3, 0.7), feedback=random.uniform(0.0, 0.5)),
             Distortion(drive_db=random.uniform(10, 50)),
-            Reverb(room_size=random.uniform(0.1, 0.8)),
             Compressor(threshold_db=random.uniform(-40, -20), ratio=random.uniform(2, 10))
        ]
 
