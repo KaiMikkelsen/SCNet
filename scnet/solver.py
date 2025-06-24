@@ -205,7 +205,9 @@ class Solver(object):
         for idx, sources in enumerate(data_loader):
             sources = sources.to(self.device)
             if train:
+                print("augemnting sources")
                 sources = self.augment(sources)
+                print("done augmenting sources")
                 mix = sources.sum(dim=1)
             else:
                 mix = sources[:, 0]
