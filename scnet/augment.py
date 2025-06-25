@@ -143,11 +143,7 @@ class PedalboardEffectModule(nn.Module):
 
 
     def create_random_pedalboard(self):
-       """
-       Creates a simple random pedalboard for demonstration.
-       YOU WILL CUSTOMIZE THIS FUNCTION to select effects from your full
-       list of AVAILABLE_EFFECTS and apply random parameters, etc.
-       """
+
        # Define a small pool of effects for this basic example
        possible_effects = [
             Chorus(),
@@ -166,7 +162,8 @@ class PedalboardEffectModule(nn.Module):
 
        #print(f"Creating Pedalboard with {num_effects} effects: {[type(effect).__name__ for effect in selected_effects]}")
 
-       return Pedalboard(selected_effects)
+       #return Pedalboard(selected_effects)
+       return Pedalboard()
   
 
     def forward(self, wav):
