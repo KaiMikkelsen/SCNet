@@ -146,7 +146,7 @@ class PedalboardEffectModule(nn.Module):
 
        # Define a small pool of effects for this basic example
        possible_effects = [
-            Chorus(),
+            Chorus(rate_hz=random.uniform(0.5, 4.0), depth=random.uniform(0.1, 0.5), mix=random.uniform(0.3, 0.7)),
             #Phaser(),
             Delay(delay_seconds=random.uniform(1, 3), mix=random.uniform(0.3, 0.7), feedback=random.uniform(0.0, 0.5)),
             Distortion(drive_db=random.uniform(10, 50)),
