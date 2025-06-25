@@ -160,7 +160,7 @@ class PedalboardEffectModule(nn.Module):
        # Randomize their order
        random.shuffle(selected_effects)
 
-       print(f"Creating Pedalboard with {num_effects} effects: {[type(effect).__name__ for effect in selected_effects]}")
+       #print(f"Creating Pedalboard with {num_effects} effects: {[type(effect).__name__ for effect in selected_effects]}")
 
        return Pedalboard(selected_effects)
        #return Pedalboard()
