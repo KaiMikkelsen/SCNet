@@ -2,7 +2,7 @@
 #SBATCH --gres=gpu:a100_4g.20gb:1     # Request GPU "generic resources"
 #SBATCH --cpus-per-task=6        # Adjust based on your cluster's CPU/GPU ratio
 #SBATCH --mem=125G               # Adjust memory as needed
-#SBATCH --time=1-00:00           # DD-HH:MM:SS
+#SBATCH --time=4-00:00           # DD-HH:MM:SS
 #SBATCH --account=def-ichiro
 
 module load python/3.10 cuda/12.2 cudnn/8.9.5.29 rust
