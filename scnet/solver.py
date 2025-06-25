@@ -206,7 +206,7 @@ class Solver(object):
             sources = sources.to(self.device)
             if train:
                 #print("augemnting sources")
-                sources = self.augment(sources)
+                #sources = self.augment(sources)
                 #print("done augmenting sources")
                 mix = sources.sum(dim=1)
             else:
