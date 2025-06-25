@@ -148,9 +148,9 @@ class PedalboardEffectModule(nn.Module):
        possible_effects = [
             Chorus(),
             Phaser(),
-            #Delay(delay_seconds=random.uniform(1, 3), mix=random.uniform(0.3, 0.7), feedback=random.uniform(0.0, 0.5)),
-            # Distortion(drive_db=random.uniform(10, 50)),
-            Compressor(threshold_db=random.uniform(-40, -20), ratio=random.uniform(2, 10))
+            Delay(delay_seconds=random.uniform(1, 3), mix=random.uniform(0.3, 0.7), feedback=random.uniform(0.0, 0.5)),
+            Distortion(drive_db=random.uniform(10, 50)),
+            #Compressor(threshold_db=random.uniform(-40, -20), ratio=random.uniform(2, 10))
        ]
 
        # Randomly select a number of effects (e.g., 1 to 3)
@@ -160,7 +160,7 @@ class PedalboardEffectModule(nn.Module):
        # Randomize their order
        random.shuffle(selected_effects)
 
-       #print(f"Creating Pedalboard with {num_effects} effects: {[type(effect).__name__ for effect in selected_effects]}")
+       print(f"Creating Pedalboard with {num_effects} effects: {[type(effect).__name__ for effect in selected_effects]}")
 
        return Pedalboard(selected_effects)
        #return Pedalboard()
