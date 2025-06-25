@@ -223,6 +223,8 @@ class Solver(object):
 
             loss = spec_rmse_loss(estimate, sources, self.stft_config)
 
+            print("spec rsmsr loss is ", loss)
+
             losses = {}
 
             losses['loss'] = loss
@@ -237,7 +239,9 @@ class Solver(object):
 
             # optimize model in training mode
             if train:
+                print("loss is ", loss)
                 scaled_loss = self.scaler.scale(loss)
+                print("scaled loss is ", scaled_loss)
                 self.accelerator.backward(scaled_loss)
                 grad_norm = 0
                 grads = []
@@ -255,6 +259,7 @@ class Solver(object):
                 if self.config.save_every and (idx+1) % self.config.save_every == 0:
                     self._serialize(epoch, idx+1)
 
+            print("losses are ", losses)
             losses = averager(losses)
             
             del loss, estimate

@@ -169,5 +169,6 @@ def new_sdr(references, estimates):
     num += delta
     den += delta
     scores = 10 * torch.log10(num / den)
+    print(f"SDR: {scores.mean().item():.2f} dB")
     return scores
 
