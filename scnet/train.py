@@ -71,8 +71,8 @@ def get_solver(args):
     train_set, valid_set = get_wav_datasets(config.data)
 
     #use this to limit for testing
-    # train_set = torch.utils.data.Subset(train_set, range(min(10, len(train_set))))  # First 10 samples
-    # valid_set = torch.utils.data.Subset(valid_set, range(min(2, len(valid_set))))    # First 2 samples
+    train_set = torch.utils.data.Subset(train_set, range(min(2, len(train_set))))  # First 10 samples
+    valid_set = torch.utils.data.Subset(valid_set, range(min(1, len(valid_set))))    # First 2 samples
 
     logger.info("train/valid set size: %d %d", len(train_set), len(valid_set))
     train_loader = DataLoader(
