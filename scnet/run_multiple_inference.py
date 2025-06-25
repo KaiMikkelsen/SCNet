@@ -126,7 +126,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--test_set_root',
         type=str,
-        default='/home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split/test',
+        default='/home/kaim/projects/def-ichiro/kaim/data/hum_guitar',
         help='The root directory of your test set (e.g., /path/to/test_data/)'
     )
     parser.add_argument(
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--global_output_root',
         type=str,
-        default='/home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split/separated',
+        default='/home/kaim/projects/def-ichiro/kaim/data/separated',
         help='The centralized root directory where all separated song results will be stored (default: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_split/separated)'
     )
 
