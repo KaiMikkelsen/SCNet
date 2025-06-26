@@ -1,5 +1,5 @@
 data:
-  wav: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_final_random_config
+  wav: /home/kaim/projects/def-ichiro/kaim/data/guitar_hum_dataset_with_amps
   #wav: /Users/kaimikkelsen/SCNet_guitar/data/small_set
   #wav: /Users/kaimikkelsen/SCNet_guitar/data/small_mus
   samplerate: 44100
